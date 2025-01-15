@@ -54,6 +54,6 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
             docker ps -q --filter 'name=hayden-express-app' | grep -q . && docker stop hayden-express-app && docker rm hayden-express-app;
-            docker run -d --name hayden-express-app -p 8000:8000 ghcr.io/hayden-shin/hayden-express-app:latest
+            docker run -d --name hayden-express-app -p 8080:8000 ghcr.io/hayden-shin/hayden-express-app:latest
           "
 
