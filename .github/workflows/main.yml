@@ -49,6 +49,9 @@ jobs:
           # GHCR로부터 최신 이미지 pull
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_PAT }}"
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker pull ghcr.io/${{ github.repository_owner }}/hayden-express-app:latest"
-
-          # 새로운 컨테이너 실행 (포트 매핑)
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker run -d --name hayden-express-app -p 8000:8000 ghcr.io/${{ github.repository_owner }}/hayden-express-app:latest"
+      - name: Stop and Restart Container
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "
+            docker ps -q --filter 'name=hayden-express-app' | grep -q . && docker stop hayden-express-app && docker rm hayden-express-app;
+            docker run -d --name hayden-express-app -p 8000:8000 ghcr.io/hayden-shin/hayden-express-app:latest
+          "
