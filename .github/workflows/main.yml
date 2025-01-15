@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Prepare SSH Key
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}"
+          echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
           chmod 600 key.pem
 
       - name: SSH into EC2 and pull/run container
